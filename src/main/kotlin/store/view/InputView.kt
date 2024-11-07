@@ -1,11 +1,12 @@
 package store.view
 
 import camp.nextstep.edu.missionutils.Console
+import store.model.Item
 import store.util.Constants
 
 
 class InputView {
-    fun readItem(stock:MutableList<List<String>>):String{
+    fun readItem(stock:MutableList<Item>):String{
         println(Constants.INTRODUCE)
         OutputView().printStock(stock)
         println(Constants.QUESTION_INPUT_ITEM)
