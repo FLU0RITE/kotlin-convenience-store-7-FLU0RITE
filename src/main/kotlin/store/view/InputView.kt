@@ -17,4 +17,9 @@ class InputView {
         return Console.readLine()
     }
 
+    fun readRetry():String{
+        println(Constants.QUESTION_RETRY)
+        return Console.readLine()
+    }
+
 }
