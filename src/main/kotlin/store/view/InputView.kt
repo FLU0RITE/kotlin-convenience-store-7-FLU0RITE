@@ -22,4 +22,9 @@ class InputView {
         return Console.readLine()
     }
 
+    fun readAddPromotion():String{
+        println(Constants.QUESTION_ADD_PROMOTION)
+        return Console.readLine()
+    }
+
 }
