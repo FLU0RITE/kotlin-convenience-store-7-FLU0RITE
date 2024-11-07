@@ -12,4 +12,9 @@ class InputView {
         return Console.readLine()
     }
 
+    fun readMembership():String{
+        println(Constants.QUESTION_MEMBERSHIP_DISCOUNT)
+        return Console.readLine()
+    }
+
 }

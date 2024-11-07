@@ -10,6 +10,5 @@ class MainController {
         val customer = Customer()
         customer.setOrder(InputView().readItem(stock.getContents()))
 
-
     }
 }
