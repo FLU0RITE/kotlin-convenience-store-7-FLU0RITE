@@ -14,7 +14,7 @@ class Stock {
         val path = Path.of("src/main/resources/products.md")
         try {
             val read = Files.readAllLines(path)
-            read.forEach {contents.add(it.split(','))}
+            read.forEach {contents.add(it.split(Constants.COMMA))}
             contents.removeAt(0)
         } catch (e: IllegalPathStateException){
             println(ErrorMessage.ERROR_FILE_LOCATION)
