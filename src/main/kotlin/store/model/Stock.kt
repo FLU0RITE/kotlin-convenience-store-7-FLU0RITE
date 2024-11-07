@@ -15,6 +15,7 @@ class Stock {
         try {
             val read = Files.readAllLines(path)
             read.forEach {contents.add(it.split(','))}
+            contents.removeAt(0)
         } catch (e: IllegalPathStateException){
             println(ErrorMessage.ERROR_FILE_LOCATION)
         }

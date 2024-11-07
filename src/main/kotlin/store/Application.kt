@@ -1,5 +1,8 @@
 package store
 
+import store.model.Stock
+import store.view.InputView
+
 fun main() {
-    // TODO: 프로그램 구현
+    InputView().readItem(Stock().getContents())
 }
