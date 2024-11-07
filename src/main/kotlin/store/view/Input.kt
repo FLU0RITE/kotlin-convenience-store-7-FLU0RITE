@@ -11,4 +11,5 @@ class Input {
         println(Constants.QUESTION_INPUT_ITEM)
         return Console.readLine()
     }
+
 }
