@@ -27,4 +27,9 @@ class InputView {
         return Console.readLine()
     }
 
+    fun readNoPromotion():String{
+        println(Constants.QUESTION_NO_PROMOTION)
+        return Console.readLine()
+    }
+
 }
