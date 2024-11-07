@@ -2,8 +2,13 @@ package store.model
 
 import store.util.Constants
 
+data class Order(
+    val name: String,
+    val count:Int
+)
+
 class Customer {
-    private var order = mutableMapOf<String, Int>()
+    private var order = mutableListOf<Order>()
 
     fun setOrder(line: String) {
         val separatedLine = line.replace(Constants.OPEN_SQUARE_BRACKET, Constants.EMPTY_SPACE).replace(Constants.CLOSED_SQUARE_BRACKET, Constants.EMPTY_SPACE).split(Constants.COMMA)
@@ -11,11 +16,12 @@ class Customer {
             val itemAndCountSeparated = itemAndCount.split(Constants.DASH)
             val item = itemAndCountSeparated[0]
             val count = itemAndCountSeparated[1]
-            this.order[item] = count.toInt()
+            this.order.add(Order(item,count.toInt()))
         }
     }
 
-    fun getOrder(): MutableMap<String, Int> {
+    fun getOrder(): MutableList<Order> {
         return order
     }
 }
+

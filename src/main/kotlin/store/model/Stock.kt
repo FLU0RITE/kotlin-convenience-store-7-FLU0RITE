@@ -8,6 +8,12 @@ import java.nio.file.Files
 import java.nio.file.Path
 import java.util.IllformedLocaleException
 
+data class Item(
+    val name: String,
+    val value: Int,
+    val count: Int,
+    val discount: String
+)
 class Stock {
     private var contents = mutableListOf<Item>()
 
@@ -17,7 +23,6 @@ class Stock {
             val read = Files.readAllLines(path)
             read.removeAt(0)
             read.forEach { contents.add(makeItem(it.split(Constants.COMMA))) }
-            contents.removeAt(0)
         } catch (e: IllegalPathStateException) {
             println(ErrorMessage.ERROR_FILE_LOCATION)
         }
@@ -31,3 +36,4 @@ class Stock {
         return contents
     }
 }
+
