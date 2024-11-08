@@ -1,9 +1,7 @@
 package store
 
-import store.controller.MainController
-import store.model.Stock
-import store.view.InputView
+import store.controller.ConvenienceStoreController
 
 fun main() {
-    MainController().execute()
+    ConvenienceStoreController().execute()
 }

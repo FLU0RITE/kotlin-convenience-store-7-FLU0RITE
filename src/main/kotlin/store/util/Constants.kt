@@ -20,4 +20,6 @@ object Constants {
     val COMMA = ","
     val OPEN_SQUARE_BRACKET = "["
     val CLOSED_SQUARE_BRACKET = "]"
+    val ANSWER_YES = "Y"
+    val ANSWER_NO = "N"
 }

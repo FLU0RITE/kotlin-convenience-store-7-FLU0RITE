@@ -1,16 +1,12 @@
 package store.model
 
-import store.model.discount.Promotion
-
+data class ReceiptResult(
+    val name: String,
+    var present: Int,
+    var general: Int,
+    var totalPrice: Int,
+    var discountedPrice: Int,
+)
 class Receipt {
 
-    fun calculate(stock: Stock, customer: Customer, membership: Boolean): Stock {
-        for (order in customer.getOrder()) {
-            val selectedStock = stock.getContents().filter { it.name == order.name }
-            Promotion().applyPromotion(selectedStock,order)
-
-        }
-
-        return stock
-    }
 }
