@@ -1,6 +1,5 @@
 package store.model
 
-import camp.nextstep.edu.missionutils.DateTimes
 import store.util.Constants
 import store.util.ErrorMessage
 import java.awt.geom.IllegalPathStateException
@@ -39,17 +38,17 @@ class Promotion {
         return Event(line[0], line[1].toInt(), line[2].toInt(), startDate, endDate)
     }
 
-    fun applyPromotion(selectedStock: List<Item>, order: Order){
-        val selectedPromotion = selectPromotion(order.name)
-    }
-
-
-
-    private fun checkMoreItem(selectedStock: List<Item>, order: Order){
-        if (selectedStock.sumOf { it.count } < order.count){
-            println(ErrorMessage.ERROR_OVER_STOCK)
-            throw IllegalArgumentException()
+    fun checkBringMoreItem(stock: Stock, order: Order): Boolean {
+        val selectedStock = stock.getItems().filter { it.name == order.name }
+        for (item in selectedStock) {
+            val selectedEvent = events.find { it.name == item.discount }
+            val whenBuy = selectedEvent?.buy ?: continue
+            val get = selectedEvent!!.get
+            when {
+                order.count % whenBuy + get == whenBuy  && item.count > order.count -> return true
+            }
         }
+        return false
     }
 
     private fun selectPromotion(name: String): Event? {

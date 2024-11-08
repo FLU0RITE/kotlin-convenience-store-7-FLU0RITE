@@ -7,6 +7,10 @@ data class ReceiptResult(
     var totalPrice: Int,
     var discountedPrice: Int,
 )
-class Receipt {
 
+class Receipt {
+    fun calculate(stock: Stock, customer: Customer, membership: Boolean) {
+        for (order in customer.getOrder()) {
+        }
+    }
 }

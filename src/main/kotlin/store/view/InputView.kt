@@ -6,9 +6,7 @@ import store.util.Constants
 
 
 class InputView {
-    fun readItem(stock:MutableList<Item>):String{
-        println(Constants.INTRODUCE)
-        OutputView().printStock(stock)
+    fun readItem():String{
         println(Constants.QUESTION_INPUT_ITEM)
         return Console.readLine()
     }

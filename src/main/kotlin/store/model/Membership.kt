@@ -4,12 +4,10 @@ import store.util.Constants
 
 class Membership {
     fun checkMembership(answer: String): Boolean {
-        return when (answer) {
-            Constants.ANSWER_YES -> true
-            Constants.ANSWER_NO -> false
-            else -> {
-                throw IllegalArgumentException()
-            }
+        when (answer) {
+            Constants.ANSWER_YES -> return true
+            Constants.ANSWER_NO -> return false
         }
+        throw IllegalArgumentException()
     }
 }

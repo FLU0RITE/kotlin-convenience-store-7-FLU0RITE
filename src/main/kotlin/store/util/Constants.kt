@@ -22,4 +22,6 @@ object Constants {
     val CLOSED_SQUARE_BRACKET = "]"
     val ANSWER_YES = "Y"
     val ANSWER_NO = "N"
+    val ZERO_COUNT = "0개"
+    val OUT_OF_STOCK = "재고 없음"
 }
