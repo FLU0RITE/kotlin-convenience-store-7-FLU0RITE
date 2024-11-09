@@ -1,11 +1,11 @@
 package store.model
 
 data class ReceiptResult(
-    val name: String,
-    var present: Int,
-    var general: Int,
-    var totalPrice: Int,
-    var discountedPrice: Int,
+    val orders: List<Order>,
+    val present: List<Order>,
+    val totalPrice: Int,
+    val promotionDiscount: Int,
+    val membershipDiscount: Int,
 )
 
 class Receipt {

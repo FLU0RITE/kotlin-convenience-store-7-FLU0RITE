@@ -8,7 +8,6 @@ class ConvenienceStoreController {
     private val stock = Stock()
     private val customer = Customer()
     private val receipt = Receipt()
-    private val membership = Membership()
     private val inputView = InputView()
     private val outputView = OutputView()
     private val promotion = Promotion()
@@ -17,14 +16,24 @@ class ConvenienceStoreController {
             outputView.printStock(stock.getItems())
             checkStock()
             checkPromotionStock()
+            receipt.calculate(stock, customer, checkMembership())
         }
+    }
+
+    private fun checkMembership(): Boolean {
+        val answer = try {
+            customer.answer(inputView.readMembership())
+        } catch (e: IllegalArgumentException) {
+            checkMembership()
+        }
+        return answer
     }
 
     private fun checkPromotionStock() {
         for (order in customer.getOrder()) {
             when (promotion.checkStockToGivePromotion(stock, order)) {
                 1 -> checkBringItem(order)
-                2 ->
+                2 -> checkPaySomethingCash(order)
             }
         }
     }
