@@ -42,7 +42,10 @@ class Receipt {
         for (order in promotionOrder) {
             promotionPrice += order.count * stock.getSelectedStock(order).first().price
         }
-        val membershipDiscount = calculateMembership(stock, promotionOrder, customer.getOrder())
+        var membershipDiscount = calculateMembership(stock, promotionOrder, customer.getOrder())
+        when {
+            membershipDiscount > 8000 -> membershipDiscount = 8000
+        }
         receipt = ReceiptResult(
             orderAndPrice,
             promotionOrder,
@@ -59,9 +62,10 @@ class Receipt {
         var totalPrice = 0
         for (order in originalOrder) {
             totalPrice += stock.getItems().find { it.name == order.name }!!.price * order.count
-            promotionOrder.find { order.name == it.name }.let {
-                promotionPrice += stock.getItems().find { it.name == order.name }!!.price * order.count
-            }
+        }
+        for (order in promotionOrder){
+            val item = stock.getItems().find { it.name == order.name }!!
+            promotionPrice += item.price * (order.count + promotion.getEvents().find { it.name == item.discount}!!.buy)
         }
         return (totalPrice - promotionPrice) / 10 * 3
     }
