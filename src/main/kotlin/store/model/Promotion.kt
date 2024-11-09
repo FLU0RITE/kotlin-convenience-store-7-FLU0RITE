@@ -19,6 +19,9 @@ data class Event(
 class Promotion {
     private val events = mutableListOf<Event>()
 
+    fun getEvents():MutableList<Event>{
+        return this.events
+    }
     init {
         val path = Path.of("src/main/resources/promotions.md")
         try {
