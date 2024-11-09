@@ -22,23 +22,40 @@ class ConvenienceStoreController {
 
     private fun checkPromotionStock() {
         for (order in customer.getOrder()) {
-            checkPromotionItem(order)
+            when (promotion.checkStockToGivePromotion(stock, order)) {
+                1 -> checkBringItem(order)
+                2 ->
+            }
         }
     }
 
-    private fun checkPromotionItem(order:Order){
-        if (promotion.checkBringMoreItem(stock, order)) {
-            val answer = try {
-                customer.answer(inputView.readAddPromotion(order.name))
-            } catch (e: IllegalArgumentException) {
-                checkPromotionItem(order)
+    private fun checkBringItem(order: Order) {
+        val answer = try {
+            customer.answer(inputView.readAddPromotion(order.name))
+        } catch (e: IllegalArgumentException) {
+            checkBringItem(order)
+        }
+        when (answer) {
+            true -> {
+                val originalOrder = customer.getOrder()
+                originalOrder.find { it.name == order.name }!!.count++
+                customer.setOrder(originalOrder)
             }
-            when (answer) {
-                true -> {
-                    val originalOrder = customer.getOrder()
-                    originalOrder.find { it.name == order.name }!!.count++
-                    customer.setOrder(originalOrder)
-                }
+        }
+    }
+
+    private fun checkPaySomethingCash(order: Order) {
+        val noPromotionCount = promotion.calculateSomethingToCash(stock, order)
+        val answer = try {
+            customer.answer(inputView.readNoPromotion(order.name, noPromotionCount))
+        } catch (e: IllegalArgumentException) {
+            checkPaySomethingCash(order)
+        }
+        when (answer) {
+            false -> {
+                val originalOrder = customer.getOrder()
+                originalOrder.find { it.name == order.name }!!.count -= noPromotionCount
+                customer.setOrder(originalOrder)
             }
         }
     }

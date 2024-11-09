@@ -36,13 +36,17 @@ class Stock {
     }
 
     fun checkStock(orders: List<Order>) {
-        for (order in orders){
-            val selectedStock = this.items.filter { it.name == order.name }
+        for (order in orders) {
+            val selectedStock = getSelectedStock(order)
             if (selectedStock.sumOf { it.count } < order.count) {
                 println(ErrorMessage.ERROR_OVER_STOCK)
                 throw IllegalArgumentException()
             }
         }
+    }
+
+    fun getSelectedStock(order: Order): List<Item> {
+        return items.filter { it.name == order.name }
     }
 
     fun getItems(): MutableList<Item> {

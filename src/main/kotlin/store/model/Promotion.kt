@@ -38,17 +38,29 @@ class Promotion {
         return Event(line[0], line[1].toInt(), line[2].toInt(), startDate, endDate)
     }
 
-    fun checkBringMoreItem(stock: Stock, order: Order): Boolean {
-        val selectedStock = stock.getItems().filter { it.name == order.name }
+    fun checkStockToGivePromotion(stock: Stock, order: Order): Int {
+        val selectedStock = stock.getSelectedStock(order)
         for (item in selectedStock) {
             val selectedEvent = events.find { it.name == item.discount }
             val whenBuy = selectedEvent?.buy ?: continue
             val get = selectedEvent.get
             when {
-                order.count % (whenBuy + get) == whenBuy  && item.count > order.count -> return true
+                order.count % (whenBuy + get) == whenBuy && item.count > order.count -> return 1
+                item.count < order.count -> return 2
             }
         }
-        return false
+        return 3
+    }
+
+    fun calculateSomethingToCash(stock: Stock, order: Order): Int {
+        val selectedStock = stock.getSelectedStock(order)
+        for (item in selectedStock) {
+            val selectedEvent = events.find { it.name == item.discount }
+            val whenBuy = selectedEvent?.buy ?: continue
+            val get = selectedEvent.get
+            return order.count - (item.count / (whenBuy + get)) * (whenBuy + get)
+        }
+        throw IllegalArgumentException()
     }
 
     private fun selectPromotion(name: String): Event? {
