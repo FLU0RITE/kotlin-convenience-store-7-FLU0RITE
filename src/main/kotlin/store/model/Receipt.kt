@@ -1,22 +1,58 @@
 package store.model
 
 data class ReceiptResult(
-    val orders: List<Order>,
+    val orders: List<OrderAndPrice>,
     val presents: List<Order>,
+    val totalCountAndPrice: CountAndPrice,
+    val promotionDiscount: Int,
     val membershipDiscount: Int,
+    val resultPrice: Int,
+)
+
+data class OrderAndPrice(
+    val order: Order,
+    val price: Int,
+)
+
+data class CountAndPrice(
+    val count: Int,
+    val price: Int,
 )
 
 class Receipt {
     private val promotion = Promotion()
-    fun calculate(stock: Stock, customer: Customer, membership: Boolean): ReceiptResult {
+    private lateinit var receipt: ReceiptResult
+
+    fun getReceipt(): ReceiptResult {
+        return receipt
+    }
+
+    fun calculate(stock: Stock, customer: Customer, membership: Boolean) {
         val promotionOrder = calculatePresents(stock, customer)
-        val orders = customer.getOrder()
-        return ReceiptResult(
-            orders,
+        val orderAndPrice = mutableListOf<OrderAndPrice>()
+        var totalCount = 0
+        var totalPrice = 0
+        for (order in customer.getOrder()) {
+            val price = stock.getItems().find { order.name == it.name }!!.price
+            totalCount += order.count
+            totalPrice += price
+            orderAndPrice.add(OrderAndPrice(order, price * order.count))
+        }
+        var promotionPrice = 0
+        for (order in promotionOrder) {
+            promotionPrice += order.count * stock.getSelectedStock(order).first().price
+        }
+        val membershipDiscount = calculateMembership(stock, promotionOrder, customer.getOrder())
+        receipt = ReceiptResult(
+            orderAndPrice,
             promotionOrder,
-            calculateMembership(stock, promotionOrder, orders)
+            CountAndPrice(totalCount, totalPrice),
+            promotionPrice,
+            membershipDiscount,
+            totalPrice - promotionPrice - membershipDiscount,
         )
     }
+
 
     private fun calculateMembership(stock: Stock, promotionOrder: List<Order>, originalOrder: List<Order>): Int {
         var promotionPrice = 0
