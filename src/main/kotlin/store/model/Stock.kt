@@ -9,7 +9,7 @@ import java.nio.file.Path
 data class Item(
     val name: String,
     val price: Int,
-    val count: Int,
+    var count: Int,
     val discount: String
 )
 
@@ -24,6 +24,31 @@ class Stock {
             read.forEach { items.add(makeItem(it.split(Constants.COMMA))) }
         } catch (e: IllegalPathStateException) {
             println(ErrorMessage.ERROR_FILE_LOCATION)
+        }
+    }
+
+    fun updateStock(orders: List<Order>) {
+        for (order in orders) {
+            var haveToMinus = order.count
+            items.filter { it.name == order.name }.let {
+                for (item in it) {
+                    if (item.discount != Constants.NULL_STRING){
+                        when{
+                            item.count >= haveToMinus ->item.count -= haveToMinus
+                            item.count < haveToMinus -> {
+                                haveToMinus -= item.count
+                                item.count = 0
+                            }
+                        }
+                    }
+                }
+                for (item in it) {
+                    if (item.discount == Constants.NULL_STRING){
+                        item.count -= haveToMinus
+                    }
+                }
+            }
+
         }
     }
 

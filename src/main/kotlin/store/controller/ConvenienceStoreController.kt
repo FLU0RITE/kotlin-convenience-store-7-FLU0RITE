@@ -17,6 +17,7 @@ class ConvenienceStoreController {
             checkStock()
             checkPromotionStock()
             receipt.calculate(stock, customer, checkMembership())
+
             outputView.printReceipt(receipt.getReceipt())
         }
     }
