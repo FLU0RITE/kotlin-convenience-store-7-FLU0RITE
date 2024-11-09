@@ -21,8 +21,8 @@ class InputView {
         return Console.readLine()
     }
 
-    fun readAddPromotion():String{
-        println(Constants.QUESTION_ADD_PROMOTION)
+    fun readAddPromotion(name:String):String{
+        println(String.format(Constants.QUESTION_ADD_PROMOTION,name))
         return Console.readLine()
     }
 

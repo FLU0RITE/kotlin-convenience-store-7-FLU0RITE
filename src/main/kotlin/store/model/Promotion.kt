@@ -43,9 +43,9 @@ class Promotion {
         for (item in selectedStock) {
             val selectedEvent = events.find { it.name == item.discount }
             val whenBuy = selectedEvent?.buy ?: continue
-            val get = selectedEvent!!.get
+            val get = selectedEvent.get
             when {
-                order.count % whenBuy + get == whenBuy  && item.count > order.count -> return true
+                order.count % (whenBuy + get) == whenBuy  && item.count > order.count -> return true
             }
         }
         return false
