@@ -8,7 +8,7 @@ import java.nio.file.Path
 
 data class Item(
     val name: String,
-    val value: Int,
+    val price: Int,
     val count: Int,
     val discount: String
 )
