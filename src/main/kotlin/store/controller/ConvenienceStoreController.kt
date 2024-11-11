@@ -12,8 +12,9 @@ class ConvenienceStoreController {
     private val inputView = InputView()
     private val outputView = OutputView()
     private val promotion = Promotion()
+    private var answer = true
     fun execute() {
-        var answer = true
+
         while (answer) {
             outputView.printStock(stock.getItems())
             readOrderAndCheckStock()

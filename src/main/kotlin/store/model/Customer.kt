@@ -1,6 +1,6 @@
 package store.model
 
-import store.util.Constants
+import store.util.ConstantText
 
 data class Order(
     val name: String,
@@ -12,7 +12,7 @@ class Customer {
 
     fun makeOrder(line: String) {
         this.order = mutableListOf()
-        val regex = """\[([가-힣a-zA-Z0-9_]+)-(\d+)\],?""".toRegex()
+        val regex = ConstantText.REGEX.text.toRegex()
         this.order = regex.findAll(line).map { matchResult ->
             val name = matchResult.groupValues[1]
             val count = matchResult.groupValues[2].toInt()
@@ -27,8 +27,8 @@ class Customer {
 
     fun answer(answer: String): Boolean {
         when (answer) {
-            Constants.ANSWER_YES.text -> return true
-            Constants.ANSWER_NO.text -> return false
+            ConstantText.ANSWER_YES.text -> return true
+            ConstantText.ANSWER_NO.text -> return false
         }
         throw IllegalArgumentException()
     }

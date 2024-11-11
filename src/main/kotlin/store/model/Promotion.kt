@@ -1,14 +1,12 @@
 package store.model
 
-import store.util.Constants
+import store.util.ConstantText
 import store.util.ErrorMessage
 import java.awt.geom.IllegalPathStateException
 import java.nio.file.Files
 import java.nio.file.Path
-import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-import java.util.*
 
 data class Event(
     val name: String,
@@ -26,20 +24,20 @@ class Promotion {
     }
 
     init {
-        val path = Path.of("src/main/resources/promotions.md")
+        val path = Path.of(ConstantText.PROMOTION_PATH.text)
         try {
             val read = Files.readAllLines(path)
             read.removeAt(0)
-            read.forEach { events.add(makeEvent(it.split(Constants.COMMA.text))) }
+            read.forEach { events.add(makeEvent(it.split(ConstantText.COMMA.text))) }
         } catch (e: IllegalPathStateException) {
             println(ErrorMessage.ERROR_FILE_LOCATION.text)
         }
     }
 
     private fun makeEvent(line: List<String>): Event {
-        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
-        val startDate = LocalDateTime.parse(line[3] + Constants.OCLOCK.text, formatter)
-        val endDate = LocalDateTime.parse(line[4] + Constants.OCLOCK_MINUS_ONE.text, formatter)
+        val formatter = DateTimeFormatter.ofPattern(ConstantText.DATE_FORMAT.text)
+        val startDate = LocalDateTime.parse(line[3] + ConstantText.OCLOCK.text, formatter)
+        val endDate = LocalDateTime.parse(line[4] + ConstantText.OCLOCK_MINUS_ONE.text, formatter)
         return Event(line[0], line[1].toInt(), line[2].toInt(), startDate, endDate)
     }
 

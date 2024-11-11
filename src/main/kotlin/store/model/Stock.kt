@@ -1,6 +1,6 @@
 package store.model
 
-import store.util.Constants
+import store.util.ConstantText
 import store.util.ErrorMessage
 import java.awt.geom.IllegalPathStateException
 import java.nio.file.Files
@@ -17,43 +17,48 @@ class Stock {
     private var items = mutableListOf<Item>()
 
     init {
-        val path = Path.of("src/main/resources/products.md")
+        val path = Path.of(ConstantText.STOCK_PATH.text)
         try {
             val read = Files.readAllLines(path)
             read.removeAt(0)
-            read.forEach { items.add(makeItem(it.split(Constants.COMMA.text))) }
+            read.forEach { items.add(makeItem(it.split(ConstantText.COMMA.text))) }
         } catch (e: IllegalPathStateException) {
             println(ErrorMessage.ERROR_FILE_LOCATION.text)
         }
     }
 
     fun updateStock(orders: List<Order>) {
-        for (order in orders) {
-            var haveToMinus = order.count
-            items.filter { it.name == order.name }.let {
-                for (item in it) {
-                    if (item.discount != Constants.NULL_STRING.text) {
-                        when {
-                            item.count >= haveToMinus -> {
-                                item.count -= haveToMinus
-                                haveToMinus = 0
-                            }
+        orders.forEach { order ->
+            updateStockForOrder(order)
+        }
+    }
 
-                            item.count < haveToMinus -> {
-                                haveToMinus -= item.count
-                                item.count = 0
-                            }
-                        }
-                    }
+    private fun updateStockForOrder(order: Order) {
+        var remainingCount = order.count
+        val itemsWithDiscount = items.filter { it.name == order.name && it.discount != ConstantText.NULL_STRING.text }
+        val itemsWithoutDiscount = items.filter { it.name == order.name && it.discount == ConstantText.NULL_STRING.text }
+
+        remainingCount = updateItemsCount(itemsWithDiscount, remainingCount)
+        if (remainingCount > 0) {
+            updateItemsCount(itemsWithoutDiscount, remainingCount)
+        }
+    }
+
+    private fun updateItemsCount(items: List<Item>, count: Int): Int {
+        var remainingCount = count
+        for (item in items) {
+            when {
+                item.count >= remainingCount -> {
+                    item.count -= remainingCount
+                    return 0
                 }
-                for (item in it) {
-                    if (item.discount == Constants.NULL_STRING.text) {
-                        item.count -= haveToMinus
-                    }
+                item.count < remainingCount -> {
+                    remainingCount -= item.count
+                    item.count = 0
                 }
             }
-
         }
+        return remainingCount
     }
 
     private fun makeItem(line: List<String>): Item {
