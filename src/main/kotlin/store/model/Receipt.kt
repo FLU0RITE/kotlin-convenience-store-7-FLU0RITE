@@ -1,5 +1,7 @@
 package store.model
 
+import camp.nextstep.edu.missionutils.DateTimes
+
 data class ReceiptResult(
     val orders: List<OrderAndPrice>,
     val presents: List<Order>,
@@ -77,9 +79,13 @@ class Receipt {
         val presents = mutableListOf<Order>()
         for (order in customer.getOrder()) {
             for (item in stock.getSelectedStock(order)) {
-                val selectedEvent = promotion.getEvents().find { it.name == item.discount }
+                val selectedEvent = promotion.selectPromotion(item.discount)
                 val whenBuy = selectedEvent?.buy ?: continue
                 val get = selectedEvent.get
+                when {
+                    DateTimes.now() < selectedEvent.startDate -> break
+                    DateTimes.now() > selectedEvent.endDate -> break
+                }
                 presents.add(Order(order.name, item.count / (whenBuy + get)))
             }
         }

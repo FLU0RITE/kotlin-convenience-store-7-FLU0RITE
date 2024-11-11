@@ -30,6 +30,7 @@ class ConvenienceStoreController {
         } catch (e: IllegalArgumentException) {
             checkRetry()
         }
+        println()
         return answer
     }
 
@@ -39,6 +40,7 @@ class ConvenienceStoreController {
         } catch (e: IllegalArgumentException) {
             checkMembership()
         }
+        println()
         return answer
     }
 
@@ -73,6 +75,7 @@ class ConvenienceStoreController {
         } catch (e: IllegalArgumentException) {
             checkPaySomethingCash(order)
         }
+        println()
         when (answer) {
             false -> {
                 val originalOrder = customer.getOrder()
@@ -89,6 +92,6 @@ class ConvenienceStoreController {
         } catch (e: IllegalArgumentException) {
             return readOrderAndCheckStock()
         }
-
+        println()
     }
 }

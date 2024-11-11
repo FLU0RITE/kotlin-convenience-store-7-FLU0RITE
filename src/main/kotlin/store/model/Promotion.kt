@@ -8,13 +8,14 @@ import java.nio.file.Path
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import java.util.*
 
 data class Event(
     val name: String,
     val buy: Int,
     val get: Int,
-    val startDate: LocalDate,
-    val endDate: LocalDate
+    val startDate: LocalDateTime,
+    val endDate: LocalDateTime
 )
 
 class Promotion {
@@ -36,10 +37,9 @@ class Promotion {
     }
 
     private fun makeEvent(line: List<String>): Event {
-        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-        val startDate = LocalDate.parse(line[3], formatter)
-        val endDate = LocalDate.parse(line[4], formatter)
-
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+        val startDate = LocalDateTime.parse(line[3] + Constants.OCLOCK, formatter)
+        val endDate = LocalDateTime.parse(line[4] + Constants.OCLOCK_MINUS_ONE, formatter)
         return Event(line[0], line[1].toInt(), line[2].toInt(), startDate, endDate)
     }
 
@@ -68,5 +68,8 @@ class Promotion {
         throw IllegalArgumentException()
     }
 
+    fun selectPromotion(name: String): Event? {
+        return events.find { it.name == name }
+    }
 }
 
