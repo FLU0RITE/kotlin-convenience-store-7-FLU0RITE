@@ -12,14 +12,25 @@ class ConvenienceStoreController {
     private val outputView = OutputView()
     private val promotion = Promotion()
     fun execute() {
-        while (true) {
+        var answer = true
+        while (answer) {
             outputView.printStock(stock.getItems())
             checkStock()
             checkPromotionStock()
             receipt.calculate(stock, customer, checkMembership())
-
+            stock.updateStock(customer.getOrder())
             outputView.printReceipt(receipt.getReceipt())
+            answer = checkRetry()
         }
+    }
+
+    private fun checkRetry(): Boolean {
+        val answer = try {
+            customer.answer(inputView.readRetry())
+        } catch (e: IllegalArgumentException) {
+            checkRetry()
+        }
+        return answer
     }
 
     private fun checkMembership(): Boolean {

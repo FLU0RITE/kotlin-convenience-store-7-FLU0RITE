@@ -5,6 +5,7 @@ import store.util.ErrorMessage
 import java.awt.geom.IllegalPathStateException
 import java.nio.file.Files
 import java.nio.file.Path
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -12,8 +13,8 @@ data class Event(
     val name: String,
     val buy: Int,
     val get: Int,
-    val startDate: LocalDateTime,
-    val endDate: LocalDateTime
+    val startDate: LocalDate,
+    val endDate: LocalDate
 )
 
 class Promotion {
@@ -34,9 +35,9 @@ class Promotion {
     }
 
     private fun makeEvent(line: List<String>): Event {
-        val formatter = DateTimeFormatter.ofPattern("yyyy-dd-mm")
-        val startDate = LocalDateTime.parse(line[3], formatter)
-        val endDate = LocalDateTime.parse(line[4], formatter)
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+        val startDate = LocalDate.parse(line[3], formatter)
+        val endDate = LocalDate.parse(line[4], formatter)
 
         return Event(line[0], line[1].toInt(), line[2].toInt(), startDate, endDate)
     }

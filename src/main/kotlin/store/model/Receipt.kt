@@ -35,7 +35,7 @@ class Receipt {
         for (order in customer.getOrder()) {
             val price = stock.getItems().find { order.name == it.name }!!.price
             totalCount += order.count
-            totalPrice += price
+            totalPrice += price * order.count
             orderAndPrice.add(OrderAndPrice(order, price * order.count))
         }
         var promotionPrice = 0
@@ -44,6 +44,7 @@ class Receipt {
         }
         var membershipDiscount = calculateMembership(stock, promotionOrder, customer.getOrder())
         when {
+            !membership -> membershipDiscount = 0
             membershipDiscount > 8000 -> membershipDiscount = 8000
         }
         receipt = ReceiptResult(
@@ -77,7 +78,7 @@ class Receipt {
                 val selectedEvent = promotion.getEvents().find { it.name == item.discount }
                 val whenBuy = selectedEvent?.buy ?: continue
                 val get = selectedEvent.get
-                presents.add(Order(order.name, item.count / (whenBuy + get)))
+                presents.add(Order(order.name, order.count / (whenBuy + get)))
             }
         }
         return presents
