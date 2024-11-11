@@ -30,16 +30,16 @@ class Promotion {
         try {
             val read = Files.readAllLines(path)
             read.removeAt(0)
-            read.forEach { events.add(makeEvent(it.split(Constants.COMMA))) }
+            read.forEach { events.add(makeEvent(it.split(Constants.COMMA.text))) }
         } catch (e: IllegalPathStateException) {
-            println(ErrorMessage.ERROR_FILE_LOCATION)
+            println(ErrorMessage.ERROR_FILE_LOCATION.text)
         }
     }
 
     private fun makeEvent(line: List<String>): Event {
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
-        val startDate = LocalDateTime.parse(line[3] + Constants.OCLOCK, formatter)
-        val endDate = LocalDateTime.parse(line[4] + Constants.OCLOCK_MINUS_ONE, formatter)
+        val startDate = LocalDateTime.parse(line[3] + Constants.OCLOCK.text, formatter)
+        val endDate = LocalDateTime.parse(line[4] + Constants.OCLOCK_MINUS_ONE.text, formatter)
         return Event(line[0], line[1].toInt(), line[2].toInt(), startDate, endDate)
     }
 

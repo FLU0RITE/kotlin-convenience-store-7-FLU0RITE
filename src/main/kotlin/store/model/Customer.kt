@@ -27,8 +27,8 @@ class Customer {
 
     fun answer(answer: String): Boolean {
         when (answer) {
-            Constants.ANSWER_YES -> return true
-            Constants.ANSWER_NO -> return false
+            Constants.ANSWER_YES.text -> return true
+            Constants.ANSWER_NO.text -> return false
         }
         throw IllegalArgumentException()
     }

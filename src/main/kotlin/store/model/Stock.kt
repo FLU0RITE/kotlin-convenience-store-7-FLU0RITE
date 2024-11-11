@@ -21,9 +21,9 @@ class Stock {
         try {
             val read = Files.readAllLines(path)
             read.removeAt(0)
-            read.forEach { items.add(makeItem(it.split(Constants.COMMA))) }
+            read.forEach { items.add(makeItem(it.split(Constants.COMMA.text))) }
         } catch (e: IllegalPathStateException) {
-            println(ErrorMessage.ERROR_FILE_LOCATION)
+            println(ErrorMessage.ERROR_FILE_LOCATION.text)
         }
     }
 
@@ -32,7 +32,7 @@ class Stock {
             var haveToMinus = order.count
             items.filter { it.name == order.name }.let {
                 for (item in it) {
-                    if (item.discount != Constants.NULL_STRING) {
+                    if (item.discount != Constants.NULL_STRING.text) {
                         when {
                             item.count >= haveToMinus -> {
                                 item.count -= haveToMinus
@@ -47,7 +47,7 @@ class Stock {
                     }
                 }
                 for (item in it) {
-                    if (item.discount == Constants.NULL_STRING) {
+                    if (item.discount == Constants.NULL_STRING.text) {
                         item.count -= haveToMinus
                     }
                 }
@@ -68,7 +68,7 @@ class Stock {
         for (order in orders) {
             val selectedStock = getSelectedStock(order)
             if (selectedStock.sumOf { it.count } < order.count) {
-                println(ErrorMessage.ERROR_OVER_STOCK)
+                println(ErrorMessage.ERROR_OVER_STOCK.text)
                 throw IllegalArgumentException()
             }
         }

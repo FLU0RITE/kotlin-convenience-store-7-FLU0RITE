@@ -9,27 +9,27 @@ import javax.print.attribute.standard.QueuedJobCount
 
 class InputView {
     fun readItem(): String {
-        println(Constants.QUESTION_INPUT_ITEM)
+        println(Constants.QUESTION_INPUT_ITEM.text)
         return Console.readLine()
     }
 
     fun readMembership(): String {
-        println(Constants.QUESTION_MEMBERSHIP_DISCOUNT)
+        println(Constants.QUESTION_MEMBERSHIP_DISCOUNT.text)
         return Console.readLine()
     }
 
     fun readRetry(): String {
-        println(Constants.QUESTION_RETRY)
+        println(Constants.QUESTION_RETRY.text)
         return Console.readLine()
     }
 
     fun readAddPromotion(name: String): String {
-        println(String.format(Constants.QUESTION_ADD_PROMOTION, name))
+        println(String.format(Constants.QUESTION_ADD_PROMOTION.text, name))
         return Console.readLine()
     }
 
     fun readNoPromotion(name: String, count: Int): String {
-        println(String.format(Constants.QUESTION_NO_PROMOTION, name, count))
+        println(String.format(Constants.QUESTION_NO_PROMOTION.text, name, count))
         return Console.readLine()
     }
 

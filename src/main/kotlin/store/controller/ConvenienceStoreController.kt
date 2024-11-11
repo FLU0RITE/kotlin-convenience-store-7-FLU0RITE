@@ -91,7 +91,7 @@ class ConvenienceStoreController {
             customer.makeOrder(inputView.readItem())
             stock.checkStock(customer.getOrder())
         } catch (e: IllegalArgumentException) {
-            println(ErrorMessage.ERROR_ITEM_INPUT)
+            println(ErrorMessage.ERROR_ITEM_INPUT.text)
             return readOrderAndCheckStock()
         }
         println()
