@@ -86,7 +86,11 @@ class Receipt {
                     DateTimes.now() < selectedEvent.startDate -> break
                     DateTimes.now() > selectedEvent.endDate -> break
                 }
-                presents.add(Order(order.name, item.count / (whenBuy + get)))
+                when {
+                    order.count <= item.count -> presents.add(Order(order.name, (order.count) / (whenBuy + get)))
+                    order.count > item.count -> presents.add(Order(order.name, (item.count) / (whenBuy + get)))
+                }
+
             }
         }
         return presents
