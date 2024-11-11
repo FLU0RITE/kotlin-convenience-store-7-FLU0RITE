@@ -80,7 +80,7 @@ class Receipt {
                 val selectedEvent = promotion.getEvents().find { it.name == item.discount }
                 val whenBuy = selectedEvent?.buy ?: continue
                 val get = selectedEvent.get
-                presents.add(Order(order.name, order.count / (whenBuy + get)))
+                presents.add(Order(order.name, item.count / (whenBuy + get)))
             }
         }
         return presents
