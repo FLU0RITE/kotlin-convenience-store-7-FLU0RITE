@@ -11,6 +11,7 @@ class Customer {
     private var order = mutableListOf<Order>()
 
     fun makeOrder(line: String) {
+        this.order = mutableListOf()
         val separatedLine = line.replace(Constants.OPEN_SQUARE_BRACKET, Constants.EMPTY_SPACE).replace(Constants.CLOSED_SQUARE_BRACKET, Constants.EMPTY_SPACE).split(Constants.COMMA)
         for (itemAndCount in separatedLine) {
             val itemAndCountSeparated = itemAndCount.split(Constants.DASH)

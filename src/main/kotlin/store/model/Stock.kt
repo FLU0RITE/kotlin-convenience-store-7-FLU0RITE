@@ -32,9 +32,13 @@ class Stock {
             var haveToMinus = order.count
             items.filter { it.name == order.name }.let {
                 for (item in it) {
-                    if (item.discount != Constants.NULL_STRING){
-                        when{
-                            item.count >= haveToMinus ->item.count -= haveToMinus
+                    if (item.discount != Constants.NULL_STRING) {
+                        when {
+                            item.count >= haveToMinus -> {
+                                item.count -= haveToMinus
+                                haveToMinus = 0
+                            }
+
                             item.count < haveToMinus -> {
                                 haveToMinus -= item.count
                                 item.count = 0
@@ -43,7 +47,7 @@ class Stock {
                     }
                 }
                 for (item in it) {
-                    if (item.discount == Constants.NULL_STRING){
+                    if (item.discount == Constants.NULL_STRING) {
                         item.count -= haveToMinus
                     }
                 }

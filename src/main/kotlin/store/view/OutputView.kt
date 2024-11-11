@@ -10,6 +10,11 @@ class OutputView {
     fun printStock(stock: MutableList<Item>) {
         println(Constants.INTRODUCE)
         for (item in stock) {
+            if (item.count == 0)
+                println(
+                    String.format(Constants.STOCK_WITH_ZERO_ITEM_OUTPUT, item.name, item.price, item.discount)
+                        .replace(Constants.NULL_STRING, Constants.EMPTY_SPACE)
+                )
             println(
                 String.format(Constants.STOCK_OUTPUT, item.name, item.price, item.count, item.discount)
                     .replace(Constants.NULL_STRING, Constants.EMPTY_SPACE)

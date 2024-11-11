@@ -64,9 +64,11 @@ class Receipt {
         for (order in originalOrder) {
             totalPrice += stock.getItems().find { it.name == order.name }!!.price * order.count
         }
-        for (order in promotionOrder){
+        for (order in promotionOrder) {
             val item = stock.getItems().find { it.name == order.name }!!
-            promotionPrice += item.price * (order.count + promotion.getEvents().find { it.name == item.discount}!!.buy)
+
+            promotionPrice += item.price * (order.count * (promotion.getEvents()
+                .find { it.name == item.discount }!!.buy + 1))
         }
         return (totalPrice - promotionPrice) / 10 * 3
     }

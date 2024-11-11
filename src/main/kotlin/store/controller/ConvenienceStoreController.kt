@@ -15,7 +15,7 @@ class ConvenienceStoreController {
         var answer = true
         while (answer) {
             outputView.printStock(stock.getItems())
-            checkStock()
+            readOrderAndCheckStock()
             checkPromotionStock()
             receipt.calculate(stock, customer, checkMembership())
             stock.updateStock(customer.getOrder())
@@ -82,12 +82,12 @@ class ConvenienceStoreController {
         }
     }
 
-    private fun checkStock() {
+    private fun readOrderAndCheckStock() {
         try {
             customer.makeOrder(inputView.readItem())
             stock.checkStock(customer.getOrder())
         } catch (e: IllegalArgumentException) {
-            return checkStock()
+            return readOrderAndCheckStock()
         }
 
     }
