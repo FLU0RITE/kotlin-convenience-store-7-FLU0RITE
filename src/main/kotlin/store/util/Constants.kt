@@ -23,6 +23,7 @@ object Constants {
     val QUESTION_NO_PROMOTION = "현재 %s %d개는 프로모션 할인이 적용되지 않습니다. 그래도 구매하시겠습니까? (Y/N)"
     val STOCK_OUTPUT = "- %s %,d원 %d개 %s"
     val STOCK_WITH_ZERO_ITEM_OUTPUT = "- %s %,d원 재고 없음 %s"
+    val STOCK_WITH_ZERO_ITEM_OUTPUT_NO_DISCOUNT = "- %s %,d원 재고 없음"
     val NULL_STRING = "null"
     val EMPTY_SPACE = ""
     val COMMA = ","

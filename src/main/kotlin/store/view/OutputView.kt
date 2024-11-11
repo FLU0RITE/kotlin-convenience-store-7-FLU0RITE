@@ -10,15 +10,23 @@ class OutputView {
     fun printStock(stock: MutableList<Item>) {
         println(Constants.INTRODUCE)
         for (item in stock) {
-            if (item.count == 0)
-                println(
+            when {
+                item.count == 0 -> println(
                     String.format(Constants.STOCK_WITH_ZERO_ITEM_OUTPUT, item.name, item.price, item.discount)
                         .replace(Constants.NULL_STRING, Constants.EMPTY_SPACE)
                 )
-            println(
-                String.format(Constants.STOCK_OUTPUT, item.name, item.price, item.count, item.discount)
-                    .replace(Constants.NULL_STRING, Constants.EMPTY_SPACE)
-            )
+
+                item.count > 0 -> println(
+                    String.format(Constants.STOCK_OUTPUT, item.name, item.price, item.count, item.discount)
+                        .replace(Constants.NULL_STRING, Constants.EMPTY_SPACE)
+                )
+            }
+            if (stock.filter { it.name == item.name }.size == 1 && stock.find { it.name == item.name }!!.discount != Constants.NULL_STRING) {
+                println(
+                    String.format(Constants.STOCK_WITH_ZERO_ITEM_OUTPUT_NO_DISCOUNT, item.name, item.price)
+                        .replace(Constants.NULL_STRING, Constants.EMPTY_SPACE)
+                )
+            }
         }
         println()
     }
@@ -59,7 +67,6 @@ class OutputView {
         println(String.format(Constants.RECEIPT_FORMAT_RESULT_PRICE, receipt.resultPrice))
         println()
     }
-
 
 
 }
