@@ -8,7 +8,7 @@ import store.util.Transformer
 
 class OutputView {
     fun printStock(stock: MutableList<Item>) {
-        println(Constants.INTRODUCE)
+        println(Constants.INTRODUCE.text)
         for (item in stock) {
             when {
                 item.count == 0 -> println(
