@@ -4,7 +4,7 @@ import store.util.Constants
 
 data class Order(
     val name: String,
-    var count:Int
+    var count: Int
 )
 
 class Customer {
@@ -12,13 +12,13 @@ class Customer {
 
     fun makeOrder(line: String) {
         this.order = mutableListOf()
-        val separatedLine = line.replace(Constants.OPEN_SQUARE_BRACKET, Constants.EMPTY_SPACE).replace(Constants.CLOSED_SQUARE_BRACKET, Constants.EMPTY_SPACE).split(Constants.COMMA)
-        for (itemAndCount in separatedLine) {
-            val itemAndCountSeparated = itemAndCount.split(Constants.DASH)
-            val item = itemAndCountSeparated[0]
-            val count = itemAndCountSeparated[1]
-            this.order.add(Order(item,count.toInt()))
-        }
+        val regex = """\[([가-힣a-zA-Z0-9_]+)-(\d+)\],?""".toRegex()
+        this.order = regex.findAll(line).map { matchResult ->
+            val name = matchResult.groupValues[1]
+            val count = matchResult.groupValues[2].toInt()
+            Order(name, count)
+        }.toMutableList()
+        if (this.order.isEmpty()) throw IllegalArgumentException()
     }
 
     fun setOrder(orders: MutableList<Order>) {

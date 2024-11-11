@@ -1,6 +1,7 @@
 package store.controller
 
 import store.model.*
+import store.util.ErrorMessage
 import store.view.InputView
 import store.view.OutputView
 
@@ -90,6 +91,7 @@ class ConvenienceStoreController {
             customer.makeOrder(inputView.readItem())
             stock.checkStock(customer.getOrder())
         } catch (e: IllegalArgumentException) {
+            println(ErrorMessage.ERROR_ITEM_INPUT)
             return readOrderAndCheckStock()
         }
         println()
