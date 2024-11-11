@@ -72,6 +72,13 @@ class Stock {
     fun checkStock(orders: List<Order>) {
         for (order in orders) {
             val selectedStock = getSelectedStock(order)
+            if(selectedStock.isEmpty()){
+                println(ErrorMessage.ERROR_NO_STOCK.text)
+                throw IllegalArgumentException()
+            }
+        }
+        for (order in orders) {
+            val selectedStock = getSelectedStock(order)
             if (selectedStock.sumOf { it.count } < order.count) {
                 println(ErrorMessage.ERROR_OVER_STOCK.text)
                 throw IllegalArgumentException()
